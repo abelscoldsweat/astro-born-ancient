@@ -45,22 +45,20 @@ const products = productData?.data?.products?.nodes;
 
 ---
 
-<Layout title="Home">
+<Layout title="Born Ancient - Home">
 	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
+		<h1>Born Ancient Shop</h1>
+		<div class="uk-margin">
+			<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
 
-			{
-				posts.map(post => 
-					<div class="uk-width-1-1">
-						<Card href={post.slug} title={post.title} body={post.excerpt}/>
-					</div>
-				)
-			}	
+				{
+					posts.map(post => 
+						<div class="uk-width-1-1">
+							<Card href={post.slug} title={post.title} body={post.excerpt}/>
+						</div>
+					)
+				}	
+			</div>
 		</div>
 		<h1>Products</h1>
 		<div class="uk-margin">
