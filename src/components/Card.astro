@@ -7,16 +7,12 @@ export interface Props {
 
 const { href, title, body } = Astro.props;
 ---
-
-<div class="uk-card uk-card-default uk-card-body">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
+<a href={href}>
+	<div class="uk-card uk-card-default uk-card-body">
+		<h2>{title}</h2>
 		<p set:html={body}></p>
-	</a>
-</div>
+	</div>
+</a>
 
 <style>
 
