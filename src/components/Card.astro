@@ -7,9 +7,9 @@ export interface Props {
 
 const { href, title, body } = Astro.props;
 ---
-<a href={href}>
+<a class="uk-link-toggle" href={href}>
 	<div class="uk-card uk-card-default uk-card-body">
-		<h2>{title}</h2>
+		<h4>{title}</h4>
 		<p set:html={body}></p>
 	</div>
 </a>

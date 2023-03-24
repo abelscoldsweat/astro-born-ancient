@@ -4,78 +4,71 @@ import Card from '../components/Card.astro';
 
 const headers = { 'Content-Type': 'application/json'};
 const postData = await fetch( "https://bornancient.shop/graphql", {
-	method: 'post',
-	headers,
-	body: JSON.stringify({
-		query: `{
-					posts {
-						nodes {
-							content
-							title
-							excerpt
-							slug
-						}
+method: 'post',
+headers,
+body: JSON.stringify({
+	query: `{
+				posts {
+					nodes {
+						content
+						title
+						excerpt
+						slug
 					}
-			}`
-		})
-	}).then(data => data.json())
+				}
+		}`
+	})
+}).then(data => data.json())
 
 const posts = postData?.data?.posts?.nodes;
 
 const productData = await fetch( "https://bornancient.shop/graphql", {
-	method: 'post',
-	headers,
-	body: JSON.stringify({
-		query: `{
-					products {
-						nodes {
-							productId
-							productTitle
-							productURL
-							productImage {
-								mediaItemUrl
-							}
+method: 'post',
+headers,
+body: JSON.stringify({
+	query: `{
+				products {
+					nodes {
+						productId
+						productTitle
+						productURL
+						productImage {
+							mediaItemUrl
 						}
 					}
-			}`
-		})
-	}).then(data => data.json())
+				}
+		}`
+	})
+}).then(data => data.json())
 
 const products = productData?.data?.products?.nodes;
 
 ---
 
 <Layout title="Born Ancient - Home">
-	<main class="uk-container uk-container-small">
-		<h1 class="uk-text-center">Born Ancient Shop</h1>
-		<div class="uk-margin">
-			<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
+	<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
+		{
+			posts.map(post => 
+				<div class="uk-width-1-1">
+					<Card href={post.slug} title={post.title} body={post.excerpt}/>
+				</div>
+			)
+		}	
+	</div>
+	<!-- <div class="uk-margin">
+		<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
 
-				{
-					posts.map(post => 
-						<div class="uk-width-1-1">
-							<Card href={post.slug} title={post.title} body={post.excerpt}/>
-						</div>
-					)
-				}	
-			</div>
+			{
+				products.map(product => 
+					<div class="uk-width-1-1">
+						<Card href={product.productURL} title={product.productTitle} body="product"/>
+					</div>
+				)
+			}	
 		</div>
-		<h1 class="uk-text-center">Products</h1>
-		<div class="uk-margin">
-			<div class="uk-grid uk-grid-medium uk-text-center" uk-grid>
-
-				{
-					products.map(product => 
-						<div class="uk-width-1-1">
-							<Card href={product.productURL} title={product.productTitle} body="product"/>
-						</div>
-					)
-				}	
-			</div>
-		</div>
-	</main>
+	</div> -->
 </Layout>
 
 <style>
-	
+
 </style>
