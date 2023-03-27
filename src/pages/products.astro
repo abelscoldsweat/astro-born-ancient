@@ -27,13 +27,18 @@ const title = "Born Ancient - Products";
 ---
 
 <Layout title={title}>
-    {
-        products.map((product, index) => (
-            <div class="uk-width-1-1">
-                <Card href={product.productURL} title={product.productTitle} body={product.productImage[index].mediaItemUrl}/>
-            </div>
-        ))
-    }
+    <div class="uk-grid-match uk-child-width-1-1 uk-child-width-expand@s uk-text-center uk-flex uk-flex-center" uk-grid>
+        {
+            products.map((product, index) => (
+                <div class="">
+                    <Card href={product.productURL}
+                          name={product.productTitle}
+                          body={product.productTitle}
+                          featured_media={product.productImage[0].mediaItemUrl} />
+                </div>
+            ))
+        }
+    </div>
 </Layout>
 
 <style></style>

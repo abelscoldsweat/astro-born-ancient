@@ -1,47 +1,101 @@
 ---
 export interface Props {
-	// title: string;
-	// body: string;
-	// href: string;
+    // title: string;
+    // body: string;
+    // href: string;
 }
+
+const headers = { "Content-Type": "application/json" };
+const pageData = await fetch("https://bornancient.shop/graphql", {
+    method: "post",
+    headers,
+    body: JSON.stringify({
+        query: `{
+				pages {
+					nodes {
+						title
+						id
+                        slug
+					}
+				}
+		}`,
+    }),
+}).then((data) => data.json());
+
+const pages = pageData?.data?.pages?.nodes;
 ---
 
-<nav class="uk-navbar-container">
+<nav class="uk-navbar-container uk-navbar-transparent">
     <div class="uk-container">
         <div uk-navbar>
 
-            <div class="uk-navbar-center">
-
-                <div class="uk-navbar-center-left">
-                    <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="#">Home</a></li>
-                        <li>
-                            <a href="/products">Products</a>
-                            <div class="uk-navbar-dropdown">
-                                <ul class="uk-nav uk-navbar-dropdown-nav">
-                                    <li class="uk-active"><a href="#">Active</a></li>
-                                    <li><a href="#">Item</a></li>
-                                    <li><a href="#">Item</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <a class="uk-navbar-item uk-logo" href="/"><img src="https://cdn.shopify.com/s/files/1/0611/5098/6428/files/BORN_ANCIENT_LOGO_FALL_2022_WEBSITE_HEADER.png?v=1664600643" width="100" /></a>
-                <div class="uk-navbar-center-right">
-                    <ul class="uk-navbar-nav">
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-
+            <div class="uk-hidden@s uk-navbar-left">
+                <a class="uk-navbar-toggle" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-nav-primary"></a>
             </div>
 
+            <div class="uk-visible@s uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" href="/"
+                    ><img
+                        src="https://cdn.shopify.com/s/files/1/0611/5098/6428/files/BORN_ANCIENT_LOGO_FALL_2022_WEBSITE_HEADER.png?v=1664600643"
+                        width="100"
+                    /></a
+                >
+            </div>
+
+            <div class="uk-hidden@s uk-navbar-center">
+                <a class="uk-navbar-item uk-logo" href="/"
+                    ><img
+                        src="https://cdn.shopify.com/s/files/1/0611/5098/6428/files/BORN_ANCIENT_LOGO_FALL_2022_WEBSITE_HEADER.png?v=1664600643"
+                        width="100"
+                    /></a
+                >
+            </div>
+
+            <div class="uk-navbar-right">
+                
+                <ul class="uk-visible@s uk-navbar-nav navbar-right">
+                    {
+                        pages.map((page) => (
+                            <li>
+                                <a href={`/${page.id}`}>{page.title}</a>
+                            </li> 
+                        ))
+                    }
+                </ul>
+
+            </div>
         </div>
     </div>
 </nav>
 
+<div id="offcanvas-nav-primary" uk-offcanvas="overlay: true;">
+    <div class="uk-offcanvas-bar uk-dark uk-flex uk-flex-column">
 
-<style>
+        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+            {
+                pages.map((page) => (
+                    <li>
+                        <a href={`/${page.id}`}>{page.title}</a>
+                    </li> 
+                ))
+            }
+        </ul>
 
-</style>
+    </div>
+</div>
+
+<script>
+    // Set active class on navbar left when the page is active
+    const nav = document.querySelector(".uk-navbar-nav");
+    const navLinks = nav.querySelectorAll("li");
+
+    const currentURL = window.location.href;
+
+    navLinks.forEach((link) => {
+        if (link.querySelector("a").href === currentURL) {
+            link.classList.add("uk-active");
+        }
+    });
+</script>
+
+<style></style>

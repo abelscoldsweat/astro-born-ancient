@@ -1,15 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from '../../../layouts/Layout.astro';
 
 const headers = { 'Content-Type': 'application/json'};
-const slug = Astro.params.slug;
+const postSlug = Astro.params.postSlug;
 const postData = await fetch( "https://bornancient.shop/graphql", {
 	method: 'post',
 	headers,
 	body: JSON.stringify({
 		query: `{
-					post(id: "${slug}", idType: SLUG) {				
+					post(id: "${postSlug}", idType: SLUG) {				
                         content
                         title
                         date
@@ -27,6 +26,13 @@ const title = "Born Ancient - "+ post.title;
 ---
 
 <Layout title={title}>
+	<nav aria-label="Breadcrumb">
+		<ul class="uk-breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li><span>{post.title}</span></li>
+		</ul>
+	</nav>
+
 	<div class="">
 		<div class="uk-card uk-card-default uk-card-body">
 

@@ -1,19 +1,54 @@
 ---
 export interface Props {
-	title: string;
+	name: string;
 	body: string;
 	href: string;
+	featured_media?: string;
 }
 
-const { href, title, body } = Astro.props;
+const { href, name, body, featured_media } = Astro.props;
 ---
-<a class="uk-link-toggle" href={href}>
-	<div class="uk-card uk-card-default uk-card-body">
-		<h4>{title}</h4>
-		<p set:html={body}></p>
-	</div>
-</a>
+
+<div class="uk-card uk-card-default">
+	<a class="uk-link-toggle" href={href}>
+		<div class="uk-card-badge uk-label card-badge-green">Badge</div>
+		{
+			featured_media && (
+				<div class="uk-card-media-top uk-cover-container">
+					<img class="" src={featured_media} alt={name} uk-cover/>
+					<canvas class="uk-height-medium" width="" height=""></canvas>
+				</div>
+			)
+		}
+		<div class="uk-card-body">
+			<h3 class="uk-card-title">{name}</h3>
+			<p set:html={body} />
+		</div>
+	</a>
+</div>
 
 <style>
+	.card-badge-red {
+		background: #ed986a;
+		color: black;
+		font-weight: 500;
+	}
 
+	.card-badge-aqua {
+		background: #35d8ed;
+		color: black;
+		font-weight: 500;
+	}
+
+	.card-badge-green {
+		background: #e2e983;
+		color: black;
+		font-weight: 500;
+	}
+
+	.card-badge-yellow {
+		background: #f2d36e;
+		color: black;
+		font-weight: 500;
+	}
 </style>

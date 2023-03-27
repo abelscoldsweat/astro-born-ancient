@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+
+const headers = { "Content-Type": "application/json" };
+const pageData = await fetch("https://bornancient.shop/graphql", {
+    method: "post",
+    headers,
+    body: JSON.stringify({
+        query: `{
+                    page(id: "cG9zdDoz") {
+                        id
+                        title
+                        content
+				}
+		}`,
+    }),
+}).then((data) => data.json());
+
+const page = pageData?.data?.page;
+const title = "Born Ancient - " + page.title;
+---
+
+<Layout title={title}>
+    <div class="uk-section uk-text-center">
+        <h1 class="uk-text-lead">{page.title}</h1>
+        <p set:html={page.content}></p>
+    </div>
+</Layout>
+
+<style></style>
