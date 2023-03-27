@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+
+const headers = { "Content-Type": "application/json" };
+const productData = await fetch("https://bornancient.shop/graphql", {
+    method: "post",
+    headers,
+    body: JSON.stringify({
+        query: `{
+				products {
+					nodes {
+						productId
+						productTitle
+						productURL
+						productImage {
+							mediaItemUrl
+						}
+					}
+				}
+		}`,
+    }),
+}).then((data) => data.json());
+
+const products = productData?.data?.products?.nodes;
+const title = "Born Ancient - Products";
+---
+
+<Layout title={title}>
+    {
+        products.map((product, index) => (
+            <div class="uk-width-1-1">
+                <Card href={product.productURL} title={product.productTitle} body={product.productImage[index].mediaItemUrl}/>
+            </div>
+        ))
+    }
+</Layout>
+
+<style></style>
